@@ -1,0 +1,375 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+
+# Oniguruma Regular Expressions:
+#   https://sonoisa.github.io/ogrekit/About_(English)_files/RE.txt
+
+# Sublime tuto:
+#   http://sublimetext.info/docs/en/extensibility/syntaxdefs.html
+
+# Prolog example:
+#   https://github.com/alnkpa/sublimeprolog/blob/master/support/Prolog.YAML-tmLanguage
+
+# Scopes:
+# - keyword
+# - comment
+# - constant.other
+# - constant.numeric
+# - support.type
+
+---
+name: SMT-LIB 2.0
+# From
+#   http://smtlib.cs.uiowa.edu/papers/smt-lib-reference-v2.0-r10.12.21.pdf
+scopeName: smt2
+fileTypes: [smt2]
+uuid: bc1d9256-66de-45e3-8be6-813b26a05a7c
+
+patterns:
+- include: '#comments'
+- include: '#commands'
+
+
+repository:
+
+  comments:
+    name: comment.smt2
+    match: ';.*$'
+
+  reserved:
+    name: 'constant.numeric.other.smt2'
+    match: '\b(par|STRING|DECIMAL|NUMERAL|_|as|let|forall|exists)\b|!'
+
+  numerals:
+    name: constant.other.smt2
+    match: '\b(0|[1-9][0-9]*)\b'
+
+  consts:
+    patterns:
+    - comment: Decimals.
+      name: constant.other.smt2
+      match: '\b(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)'
+    - include: '#numerals'
+    - comment: Hexadecimals.
+      name: constant.other.smt2
+      match: '#x\h+'
+    - comment: Binarys.
+      name: constant.other.smt2
+      match: '#b(0|1)+'
+    - comment: String literals.
+      name: constant.other.smt2
+      match: '\"(\\\"|[^\"])*\"'
+
+  convenienceSymbols:
+    patterns:
+    - comment: Propositional and =.
+      name: keyword.smt2
+      match: '(\b(true|false|and|or|ite|not)\b)|((=>|=)\s)'
+    - comment: Arithmetic.
+      name: keyword.smt2
+      match: '[<>[<=][>=]\+\-\*/]\s'
+    - comment: Pritive types.
+      name: support.type.smt2
+      match: '\b(Bool|Int|Real)\b'
+
+  simpleSymbols:
+    patterns:
+    - match: '[~@\$%\^&\*\-\+=<>\.\?/][~!@\$%\^&\*\-\+=<>\.\?/\w]*'
+    - comment: Word separator if starting by alpha.
+      match: '\b[a-zA-Z][~!@\$%\^&\*\-\+=<>\.\?/\w]*'
+    # - comment: Word separator if starting by alpha.
+    #            Capital is interpreted as type for readability
+    #   name: support.type.smt2
+    #   match: '\b[A-Z][~!@\$%\^&\*-\+=<>\.\?/\w]*'
+    - comment: _ and ! are reserved.
+      match: '[!_][~!@\$%\^&\*\-\+=<>\.\?/\w]+'
+
+  quotedSymbols:
+    begin: '(\|)'
+    beginCaptures:
+      '0': {name: constant.numeric.smt2 }
+    end: '(\|)'
+    endCaptures:
+      '0': {name: constant.numeric.smt2 }
+    patterns:
+    - comment: Hilight backslash because illegal.
+      name: invalid.smt2
+      match: '\\'
+
+  keywords:
+    name: keyword.smt2
+    match: ':[\w~!@\$%\^&\*\-\+=<>\.\?/]+'
+
+  # sExpr:
+  #   patterns:
+  #   - include: '#consts'
+  #   - include: '#convenienceSymbols'
+  #   - include: '#simpleSymbols'
+  #   - include: '#quotedSymbols'
+  #   - begin: '\('
+  #     end: '\)'
+  #     patterns:
+  #     - include: '#sExpr'
+  #     - comment: For annotations.
+  #       include: '#keywords'
+  #     - name: invalid.smt2
+  #       match: '[^\s\)]'
+
+  indexed:
+    comment: Indexing on quoted.
+    begin: '(\()\s*(_)\b'
+    beginCaptures:
+      '1': {name: keyword.smt2}
+      '2': {name: constant.numeric.smt2}
+    end: '((([1-9][0-9]*)\s*)+)(\))|(\))'
+    endCaptures:
+      '1': {name: constant.other.smt2}
+      '4': {name: keyword.smt2}
+      '5': {name: invalid.smt2}
+    patterns:
+      - include: '#simpleSymbols'
+      - include: '#quotedSymbols'
+      - name: invalid.smt2
+        match: '[^\s\)]*'
+
+  # sorts:
+  #   patterns:
+  #   - include: '#identifiers'
+  #   - begin: '(\()'
+  #     beginCaptures:
+  #       '1': {name: keyword.smt2}
+  #     end: '(\))'
+  #     endCaptures:
+  #       '1': {name: keyword.smt2}
+  #     patterns:
+  #     - include: '#sort'
+
+  terms:
+    patterns:
+    - include: '#consts'
+    - include: '#convenienceSymbols'
+    - include: '#simpleSymbols'
+    - include: '#quotedSymbols'
+    - include: '#indexed'
+    - begin: '\('
+      end: '\)'
+      patterns:
+      - include: '#comments'
+      - include: '#reserved'
+      - include: '#terms'
+      - comment: For annotations.
+        include: '#keywords'
+      - name: invalid.smt2
+        match: '[^\s\)]'
+
+  commands:
+    patterns:
+    - begin: '(\()\s*(set-logic)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+      patterns:
+      - include: '#simpleSymbols'
+      - include: '#quotedSymbols'
+      - include: '#comments'
+    - begin: '(\()\s*(set-option)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+      patterns:
+      - include: '#keywords'
+      - include: '#terms'
+      - include: '#comments'
+    - begin: '(\()\s*(set-info)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+      patterns:
+      - include: '#comments'
+    - begin: '(\()\s*(declare-sort)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+      patterns:
+      - include: '#comments'
+      - include: '#simpleSymbols'
+      - include: '#quotedSymbols'
+      - include: '#numerals'
+    - begin: '(\()\s*(define-sort)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+      patterns:
+      - include: '#comments'
+      - include: '#terms'
+    - begin: '(\()\s*(declare-fun|declare-const)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+      patterns:
+      - include: '#comments'
+      - include: '#terms'
+    - begin: '(\()\s*(define-fun|define_cons)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+      patterns:
+      - include: '#terms'
+      - include: '#comments'
+    - begin: '(\()\s*(push)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+      patterns:
+      - include: '#numerals'
+      - include: '#comments'
+    - begin: '(\()\s*(pop)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+      patterns:
+      - include: '#numerals'
+      - include: '#comments'
+    - begin: '(\()\s*(assert)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+      patterns:
+      - include: '#terms'
+      - include: '#comments'
+    - begin: '(\()\s*(check-sat)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+      patterns:
+      - include: '#simpleSymbols'
+      - include: '#quotedSymbols'
+      - include: '#comments'
+    - begin: '(\()\s*(get-assertions)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+    - begin: '(\()\s*(get-proof)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+    - begin: '(\()\s*(exit)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+    - begin: '(\()\s*(reset)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+    - begin: '(\()\s*(get-unsat-core)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+    - begin: '(\()\s*(get-value)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+      patterns:
+      - include: '#terms'
+      # - include: '#simpleSymbols'
+      # - include: '#quotedSymbols'
+      # - include: '#comments'
+    - begin: '(\()\s*(get-assignment)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+    - begin: '(\()\s*(get-model)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+    - begin: '(\()\s*(get-option)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+      patterns:
+      - include: '#keywords'
+      - include: '#comments'
+    - begin: '(\()\s*(get-info)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+      patterns:
+      - include: '#keywords'
+      - include: '#comments'
+    - begin: '(\()\s*(echo)'
+      beginCaptures:
+        '1': {name: keyword.smt2}
+        '2': {name: constant.numeric.smt2}
+      end: '(\))'
+      endCaptures:
+        '1': {name: keyword.smt2}
+      patterns:
+      - include: '#comments'
+
+
+  # declarations:
+  #   match: 'declare-fun|declare-sort'
+
+...
