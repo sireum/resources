@@ -22,7 +22,7 @@ OS2Version: 4
 OS2_WeightWidthSlopeOnly: 0
 OS2_UseTypoMetrics: 1
 CreationTime: 1673704953
-ModificationTime: 1695644894
+ModificationTime: 1696453485
 PfmFamily: 17
 TTFWeight: 700
 TTFWidth: 5
@@ -12956,7 +12956,7 @@ NameList: AGL For New Fonts
 DisplaySize: -128
 AntiAlias: 1
 FitToEm: 1
-WinInfo: 1330 14 6
+WinInfo: 1326 6 3
 BeginPrivate: 0
 EndPrivate
 AnchorClass2: "Anchor-0" "'mark' Mark Positioning in Latin lookup 0 subtable" "Anchor-1" "'mark' Mark Positioning in Latin lookup 1 subtable" "Anchor-2" "'mark' Mark Positioning in Latin lookup 1 subtable" "Anchor-3" "'mark' Mark Positioning in Latin lookup 1 subtable" "Anchor-4" "'mark' Mark Positioning in Latin lookup 1 subtable" "Anchor-5" "'mark' Mark Positioning in Latin lookup 1 subtable" "Anchor-6" "'mkmk' Mark to Mark in Latin lookup 2 subtable" "Anchor-7" "'mkmk' Mark to Mark in Latin lookup 3 subtable" "Anchor-8" "'mkmk' Mark to Mark in Latin lookup 4 subtable"
@@ -62245,7 +62245,7 @@ SplineSet
  168 50 l 1,12,-1
  41 50 l 1,0,-1
 EndSplineSet
-Ligature2: "'sireum'-1" ampersand
+Ligature2: "'sireum-bottom'-1" ampersand
 EndChar
 
 StartChar: logicalor
@@ -62302,7 +62302,7 @@ SplineSet
  381 50 l 1,12,-1
  220 50 l 1,0,-1
 EndSplineSet
-Ligature2: "'sireum'-1" bar
+Ligature2: "'sireum-bottom'-1" bar
 EndChar
 
 StartChar: intersection
