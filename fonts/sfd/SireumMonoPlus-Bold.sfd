@@ -22,7 +22,7 @@ OS2Version: 4
 OS2_WeightWidthSlopeOnly: 0
 OS2_UseTypoMetrics: 1
 CreationTime: 1673704953
-ModificationTime: 1696453485
+ModificationTime: 1702056132
 PfmFamily: 17
 TTFWeight: 700
 TTFWidth: 5
@@ -68887,6 +68887,7 @@ SplineSet
  164 94 164 94 238 77 c 1,35,-1
  238 272 l 1,31,-1
 EndSplineSet
+Ligature2: "'sireum'-1" bar asciicircum
 EndChar
 
 StartChar: uni2296
