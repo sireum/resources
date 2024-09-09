@@ -1,0 +1,34 @@
+Vagrant.configure("2") do |config|
+  if ENV['UBUNTU'] == 'noble' then
+    config.vm.box = "bento/ubuntu-24.04"
+    config.vm.box_version = "202404.26.0"
+  else
+    config.vm.box = "bento/ubuntu-22.04"
+    config.vm.box_version = "202401.31.0"
+  end
+
+  config.vm.provider "vmware_desktop" do |v|
+    v.vmx["memsize"] = "16384"
+    v.vmx["numvcpus"] = "4"
+  end
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 16384
+    v.cpus = 4
+  end
+
+
+  config.vm.provision "shell", env: { "UBUNTU" => ENV['UBUNTU'],
+                                      "SIREUM_SHA" => ENV['SIREUM_SHA'],
+                                      "UNAME" => ENV['UNAME'],
+                                      "UPASSWD" => ENV['UPASSWD'] }, inline: <<-SHELL
+
+      if [ -z "$UNAME" ]; then export UNAME="santos"; fi
+      if [ -z "$UPASSWD" ]; then export UPASSWD="sireum"; fi
+      set -ex
+      bash /vagrant/setup-system.sh
+      su - $UNAME -c 'bash /vagrant/setup-user.sh'
+      shutdown -h now
+      SHELL
+
+end
