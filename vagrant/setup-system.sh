@@ -14,7 +14,9 @@ useradd -m -d /home/$UNAME -s /bin/zsh -p $(openssl passwd -1 $UPASSWD) $UNAME
 usermod -aG sudo $UNAME
 if [ "$UBUNTU" = "noble" ]; then
   apt install -y xubuntu-desktop-minimal
-  apt install -y ros-dev-tools ros-jazzy-desktop
+  if [ "$NO_ROS" != "true" ]; then
+    apt install -y ros-dev-tools ros-jazzy-desktop
+  fi
   if [ "$NO_JEXTRACT" != "true" ]; then
     if [ `uname -m` = "aarch64" ]; then
       wget --no-check-certificate http://launchpadlibrarian.net/666971087/libtinfo5_6.3-2ubuntu0.1_arm64.deb
@@ -28,5 +30,7 @@ if [ "$UBUNTU" = "noble" ]; then
   fi
 else
   apt install -y xubuntu-core^
-  apt install -y ros-dev-tools ros-humble-desktop
+  if [ "$NO_ROS" != "true" ]; then
+    apt install -y ros-dev-tools ros-humble-desktop
+  fi
 fi

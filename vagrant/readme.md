@@ -30,6 +30,8 @@ Define the following environment variables to customize the provision when runni
 
 * `UPASSWD=<password>`; otherwise, `sireum` will be used.
 
+* `NO_ROS=true`; otherwise, ROS2 will be installed.
+
 * `NO_JEXTRACT=true`; otherwise, Jextract will be installed.
 
 For example, to provision Ubuntu Noble in `.vagrant-noble` with the latest Sireum commit tip, and
