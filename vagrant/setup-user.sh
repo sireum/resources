@@ -17,7 +17,7 @@ if [ ! -z "$SIREUM_SHA" ]; then
   git checkout $SIREUM_SHA
 fi
 git submodule update --init --recursive
-bin/build.cmd setup
+bin/build.cmd setup native
 bin/install/rust.cmd
 bin/install/vscodium.cmd
 bin/install/brave.cmd
