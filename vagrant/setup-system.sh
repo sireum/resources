@@ -9,7 +9,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-a
 apt update
 apt upgrade -y
 apt install -y zsh software-properties-common locales materia-gtk-theme papirus-icon-theme \
-               open-vm-tools-desktop chromium-browser hugo firefox git-credential-oauth
+               open-vm-tools-desktop chromium-browser hugo firefox git-credential-oauth zlib1g-dev
 useradd -m -d /home/$UNAME -s /bin/zsh -p $(openssl passwd -1 $UPASSWD) $UNAME
 usermod -aG sudo $UNAME
 if [ "$UBUNTU" = "noble" ]; then
