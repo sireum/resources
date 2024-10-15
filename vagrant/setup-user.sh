@@ -19,8 +19,8 @@ fi
 git submodule update --init --recursive
 bin/build.cmd setup native
 bin/install/rust.cmd
-bin/install/vscodium.cmd
 bin/install/brave.cmd
+bin/sireum setup vscode
 cd $HOME
 mkdir -p $HOME/.config/xfce4/panel
 echo "button-icon=$SIREUM_HOME/resources/distro/icons/idea_logo_background.png" > $HOME/.config/xfce4/panel/whiskermenu-1.rc
