@@ -18,7 +18,7 @@ if [ ! -z "$SIREUM_SHA" ]; then
 fi
 git submodule update --init --recursive
 bin/build.cmd setup
-bin/sireum setup vscode --extension scala-lang.scala
+bin/sireum setup vscode --extensions scala-lang.scala
 bin/install/rust.cmd
 if ! [ `uname -m` = "aarch64" ]; then
   bin/build.cmd native
