@@ -18,9 +18,9 @@ if [ ! -z "$SIREUM_SHA" ]; then
 fi
 git submodule update --init --recursive
 if [ `uname -m` = "aarch64" ]; then
-  bin/build.cmd setup
+  bin/build.cmd forms setup
 else
-  bin/build.cmd setup native
+  bin/build.cmd forms setup native
 fi
 bin/install/rust.cmd
 bin/sireum setup vscode
