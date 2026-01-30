@@ -15,5 +15,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - run: |
+        shell: cmd
           cd vagrant
           vagrant up --provision
