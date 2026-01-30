@@ -14,7 +14,8 @@ jobs:
           winget install Oracle.VirtualBox Hashicorp.Vagrant --silent --accept-source-agreements --accept-package-agreements
       - name: Checkout
         uses: actions/checkout@v6
-      - run: |
+      - name: Provision
         shell: cmd
+        run: |
           cd vagrant
           vagrant up --provision
