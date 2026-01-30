@@ -19,10 +19,13 @@ fi
 git submodule update --init --recursive
 bin/build.cmd setup
 bin/sireum setup vscode --extensions scala-lang.scala
-bin/install/rust.cmd
-if ! [ `uname -m` = "aarch64" ]; then
+if [ `uname -m` = "aarch64" ]; then
+  chown root:root bin/linux/arm/vscodium/chrome-sandbox; sudo chmod 4755 bin/linux/arm/vscodium/chrome-sandbox
+else
+  chown root:root bin/linux/vscodium/chrome-sandbox; sudo chmod 4755 bin/linux/vscodium/chrome-sandbox
   bin/build.cmd native
 fi
+bin/install/rust.cmd
 cd $HOME
 mkdir -p $HOME/.config/xfce4/panel
 echo "button-icon=$SIREUM_HOME/resources/distro/icons/idea_logo_background.png" > $HOME/.config/xfce4/panel/whiskermenu-1.rc
