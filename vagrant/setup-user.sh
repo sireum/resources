@@ -17,13 +17,12 @@ if [ ! -z "$SIREUM_SHA" ]; then
   git checkout $SIREUM_SHA
 fi
 git submodule update --init --recursive
-if [ `uname -m` = "aarch64" ]; then
-  bin/build.cmd forms setup
-else
-  bin/build.cmd forms setup native
-fi
+bin/build.cmd setup
+bin/sireum setup vscode --extension scala-lang.scala
 bin/install/rust.cmd
-bin/sireum setup vscode
+if ! [ `uname -m` = "aarch64" ]; then
+  bin/build.cmd native
+fi
 cd $HOME
 mkdir -p $HOME/.config/xfce4/panel
 echo "button-icon=$SIREUM_HOME/resources/distro/icons/idea_logo_background.png" > $HOME/.config/xfce4/panel/whiskermenu-1.rc
