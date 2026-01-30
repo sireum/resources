@@ -30,15 +30,5 @@ For example, to provision Ubuntu Noble in `.vagrant-noble` with the latest Sireu
 with username `foo` and password `bar`:
 
 ```shell
-VAGRANT_DOTFILE_PATH=.vagrant-noble UBUNTU=noble UNAME=foo UPASSWD=bar vagrant up
+VAGRANT_DOTFILE_PATH=.vagrant-noble UBUNTU=noble UNAME=foo UPASSWD=bar vagrant up --provision
 ```
-
-## Launching
-
-To launch the provisioned VM:
-
-* **macOS/arm64**:
-
-  ```shell
-  open `find .vagrant-noble -name "*.vmx"`
-  ```
