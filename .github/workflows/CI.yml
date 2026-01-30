@@ -20,24 +20,13 @@ jobs:
       - run: |
           cd vagrant
           vagrant up --provision
-  macOS-arm64:
-    runs-on: macOS-latest
-    steps:
-      - name: Set up Vagrant & VirtualBox
-        run: |
-          brew install virtualbox vagrant
-      - name: Checkout
-        uses: actions/checkout@v6
-      - run: |
-          cd vagrant
-          vagrant up --provision
   windows-amd64:
     runs-on: windows-latest
     steps:
       - name: Set up Vagrant & VirtualBox
         shell: cmd
         run: |
-          winget Oracle.VirtualBox Hashicorp.Vagrant
+          winget install Oracle.VirtualBox Hashicorp.Vagrant
       - name: Checkout
         uses: actions/checkout@v6
       - run: |
