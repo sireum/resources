@@ -18,4 +18,4 @@ jobs:
         shell: cmd
         run: |
           cd vagrant
-          vagrant up --provision
+          C:\HashiCorp\Vagrant\bin\vagrant.exe up --provision
