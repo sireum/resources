@@ -14,8 +14,8 @@ This folder contains a Vagrantfile to set up Xubuntu Desktop (core/minimal) that
 
 Define the following environment variables to customize the provision when running `vagrant up`:
 
-* `UBUNTU=noble` to provision Ubuntu Noble; 
-  otherwise, Jammy will be provisioned.
+* `UBUNTU=jammy` to provision Ubuntu Jammy (22.04); 
+  otherwise, Noble (24.04) will be provisioned.
 
 * `SIREUM_SHA=<commit>` to setup Sireum on a specific [SHA-commit](https://github.com/sireum/kekinian/commits/master/);
   otherwise, the latest commit will be used.
