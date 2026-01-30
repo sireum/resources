@@ -7,13 +7,7 @@ This folder contains a Vagrantfile to set up Xubuntu Desktop (core/minimal) that
 
 ## Requirements
 
-* **macOS/arm64**: 
-  * VMWare Fusion
-  * [Vagrant VMWare Desktop plugin](https://github.com/hashicorp/vagrant-vmware-desktop): 
-    
-    ```shell
-    vagrant plugin install vagrant-vmware-desktop
-    ```
+* [VirtualBox](https://www.virtualbox.org/)
 
     
 ## Provisioning
@@ -31,8 +25,6 @@ Define the following environment variables to customize the provision when runni
 * `UPASSWD=<password>`; otherwise, `sireum` will be used.
 
 * `NO_ROS=true`; otherwise, ROS2 will be installed.
-
-* `NO_JEXTRACT=true`; otherwise, Jextract will be installed.
 
 For example, to provision Ubuntu Noble in `.vagrant-noble` with the latest Sireum commit tip, and
 with username `foo` and password `bar`:

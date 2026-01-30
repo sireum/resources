@@ -19,7 +19,6 @@ fi
 git submodule update --init --recursive
 bin/build.cmd setup native
 bin/install/rust.cmd
-bin/install/brave.cmd
 bin/sireum setup vscode
 cd $HOME
 mkdir -p $HOME/.config/xfce4/panel
@@ -35,23 +34,10 @@ ln -s $SIREUM_HOME/bin/sireum .
 if [ `uname -m` = "aarch64" ]; then
   ln -s $SIREUM_HOME/bin/linux/arm/java/bin/java .
   echo 'export JAVA_HOME=$SIREUM_HOME/bin/linux/arm/java' >> $HOME/.zshrc
-  if [ "$NO_JEXTRACT" != "true" ]; then
-    cd $HOME/Applications
-    wget https://github.com/sireum/rolling/releases/download/jextract/jextract-jdk22-linux-arm64.tar.gz
-    tar xfz jextract-jdk22-linux-arm64.tar.gz
-    rm jextract-jdk22-linux-arm64.tar.gz
-  fi
 else
   ln -s $SIREUM_HOME/bin/linux/java/bin/java .
   echo 'export JAVA_HOME=$SIREUM_HOME/bin/linux/java' >> $HOME/.zshrc
   find $HOME/.config/xfce4/panel -type f -print0 | xargs -0 sed -i "s/kekinian\/bin\/linux\/arm/kekinian\/bin\/linux/g"
-  if [ "$NO_JEXTRACT" != "true" ]; then
-    cd $HOME/Applications
-    wget --no-check-certificate https://download.java.net/java/early_access/jextract/22/5/openjdk-22-jextract+5-33_linux-x64_bin.tar.gz
-    tar xfz openjdk-22-jextract+5-33_linux-x64_bin.tar.gz
-    mv jextract-22 jextract
-    rm openjdk-22-jextract+5-33_linux-x64_bin.tar.gz
-  fi
 fi
 cd $HOME
 git credential-oauth configure

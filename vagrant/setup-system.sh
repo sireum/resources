@@ -17,17 +17,6 @@ if [ "$UBUNTU" = "noble" ]; then
   if [ "$NO_ROS" != "true" ]; then
     apt install -y ros-dev-tools ros-jazzy-desktop
   fi
-  if [ "$NO_JEXTRACT" != "true" ]; then
-    if [ `uname -m` = "aarch64" ]; then
-      wget --no-check-certificate http://launchpadlibrarian.net/666971087/libtinfo5_6.3-2ubuntu0.1_arm64.deb
-      dpkg -i libtinfo5_6.3-2ubuntu0.1_arm64.deb
-      rm libtinfo5_6.3-2ubuntu0.1_arm64.deb
-    else
-      wget --no-check-certificate http://launchpadlibrarian.net/666971015/libtinfo5_6.3-2ubuntu0.1_amd64.deb
-      dpkg -i libtinfo5_6.3-2ubuntu0.1_amd64.deb
-      rm libtinfo5_6.3-2ubuntu0.1_amd64.deb
-    fi
-  fi
 else
   apt install -y xubuntu-core^
   if [ "$NO_ROS" != "true" ]; then
