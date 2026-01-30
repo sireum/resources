@@ -17,7 +17,11 @@ if [ ! -z "$SIREUM_SHA" ]; then
   git checkout $SIREUM_SHA
 fi
 git submodule update --init --recursive
-bin/build.cmd setup native
+if [ `uname -m` = "aarch64" ]; then
+  bin/build.cmd setup
+else
+  bin/build.cmd setup native
+fi
 bin/install/rust.cmd
 bin/sireum setup vscode
 cd $HOME
