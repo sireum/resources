@@ -20,9 +20,11 @@ git submodule update --init --recursive
 bin/build.cmd setup
 bin/sireum setup vscode --extensions scala-lang.scala
 if [ `uname -m` = "aarch64" ]; then
-  chown root:root bin/linux/arm/vscodium/chrome-sandbox; sudo chmod 4755 bin/linux/arm/vscodium/chrome-sandbox
+  sudo chown root:root bin/linux/arm/vscodium/chrome-sandbox
+  sudo chmod 4755 bin/linux/arm/vscodium/chrome-sandbox
 else
-  chown root:root bin/linux/vscodium/chrome-sandbox; sudo chmod 4755 bin/linux/vscodium/chrome-sandbox
+  sudo chown root:root bin/linux/vscodium/chrome-sandbox
+  sudo chmod 4755 bin/linux/vscodium/chrome-sandbox
   bin/build.cmd native
 fi
 bin/install/rust.cmd
