@@ -1,30 +1,35 @@
 Vagrant.configure("2") do |config|
   if ENV['UBUNTU'] == 'jammy' then
     config.vm.box = "bento/ubuntu-22.04"
-    config.vm.box_version = "202510.26.0"
   else
     config.vm.box = "bento/ubuntu-24.04"
-    config.vm.box_version = "202510.26.0"
   end
+
+  config.vm.disk :disk, primary: true, size: "64GB"
 
   config.vm.provider "virtualbox" do |v|
     v.memory = 16384
     v.cpus = 4
+    v.customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']
   end
 
+  config.vm.provision "shell", reboot: true, env: { "UBUNTU" => ENV['UBUNTU'],
+                                                    "SIREUM_SHA" => ENV['SIREUM_SHA'],
+                                                    "UNAME" => ENV['UNAME'],
+                                                    "UPASSWD" => ENV['UPASSWD'],
+                                                    "NO_ROS" => ENV['NO_ROS'] }, inline: <<-SHELL
 
-  config.vm.provision "shell", env: { "UBUNTU" => ENV['UBUNTU'],
-                                      "SIREUM_SHA" => ENV['SIREUM_SHA'],
-                                      "UNAME" => ENV['UNAME'],
-                                      "UPASSWD" => ENV['UPASSWD'],
-                                      "NO_ROS" => ENV['NO_ROS'] }, inline: <<-SHELL
+    if [ -z "$UNAME" ]; then export UNAME="santos"; fi
+    if [ -z "$UPASSWD" ]; then export UPASSWD="sireum"; fi
+    set -ex
+    bash /vagrant/setup-system.sh
+    su - $UNAME -c 'bash /vagrant/setup-user.sh'
+  SHELL
 
-      if [ -z "$UNAME" ]; then export UNAME="santos"; fi
-      if [ -z "$UPASSWD" ]; then export UPASSWD="sireum"; fi
-      set -ex
-      bash /vagrant/setup-system.sh
-      su - $UNAME -c 'bash /vagrant/setup-user.sh'
-      shutdown -h now
-      SHELL
-
+  config.vm.provision "shell", inline: <<-SHELL
+    set -ex
+    export DEBIAN_FRONTEND=noninteractive
+    apt install -y linux-headers-$(uname -r)
+    shutdown -h now
+  SHELL
 end

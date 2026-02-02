@@ -27,7 +27,6 @@ else
   sudo chmod 4755 bin/linux/vscodium/chrome-sandbox
   bin/build.cmd native
 fi
-bin/install/rust.cmd
 cd $HOME
 mkdir -p $HOME/.config/xfce4/panel
 echo "button-icon=$SIREUM_HOME/resources/distro/icons/idea_logo_background.png" > $HOME/.config/xfce4/panel/whiskermenu-1.rc

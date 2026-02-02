@@ -1,14 +1,13 @@
 # Xubuntu Jammy (22.04) / Noble (24.04) Vagrantfile
 
 This folder contains a Vagrantfile to set up Xubuntu Desktop (core/minimal) that includes:
-* [Sireum](https://sireum.org/), including its IntelliJ-based IVE and VSCodium-based HAMR SysML v2 front-end
+* [Sireum](https://sireum.org/), including its IntelliJ-based IVE and VSCodium-based CodeIVE HAMR SysML v2 front-end
 * [ROS2](https://ros.org/) Humble (Jammy) / Jazzy (Noble)
-* [Jextract](https://jdk.java.net/jextract/)
 
 ## Requirements
 
 * [VirtualBox](https://www.virtualbox.org/)
-
+* [Vagrant](https://developer.hashicorp.com/vagrant)
     
 ## Provisioning
 
