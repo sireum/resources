@@ -1,0 +1,235 @@
+{
+  "name": "SireumAntlr3",
+  "scopeName": "source.antlr3",
+  "fileTypes": ["g"],
+  "patterns": [
+    { "include": "#comment" },
+    { "include": "#grammarDecl" },
+    { "include": "#optionsBlock" },
+    { "include": "#headerBlock" },
+    { "include": "#fragmentLexerRuleDef" },
+    { "include": "#parserRuleDef" },
+    { "include": "#standaloneLexerRuleName" },
+    { "include": "#standaloneFragment" },
+    { "include": "#definitionColon" },
+    { "include": "#ruleBody" }
+  ],
+  "repository": {
+    "comment": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.antlr3",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.antlr3",
+          "begin": "/\\*",
+          "end": "\\*+/"
+        }
+      ]
+    },
+    "grammarDecl": {
+      "match": "\\b(grammar)\\s+([A-Za-z_]\\w*)\\s*(;)",
+      "captures": {
+        "1": { "name": "keyword.control.grammar.antlr3" },
+        "2": { "name": "entity.name.type.grammar.antlr3" },
+        "3": { "name": "punctuation.terminator.antlr3" }
+      }
+    },
+    "optionsBlock": {
+      "begin": "\\b(options)\\s*(\\{)",
+      "beginCaptures": {
+        "1": { "name": "keyword.control.options.antlr3" },
+        "2": { "name": "punctuation.section.block.begin.antlr3" }
+      },
+      "end": "(\\})",
+      "endCaptures": {
+        "1": { "name": "punctuation.section.block.end.antlr3" }
+      },
+      "patterns": [
+        { "include": "#comment" },
+        {
+          "match": "\\b([A-Za-z_]\\w*)\\s*(=)\\s*([A-Za-z_]\\w*|\\d+)\\s*(;)",
+          "captures": {
+            "1": { "name": "variable.parameter.option.antlr3" },
+            "2": { "name": "keyword.operator.assignment.antlr3" },
+            "3": { "name": "constant.other.option-value.antlr3" },
+            "4": { "name": "punctuation.terminator.antlr3" }
+          }
+        }
+      ]
+    },
+    "headerBlock": {
+      "begin": "(@)\\s*(lexer\\s*::\\s*)?(header)\\s*(\\{)",
+      "beginCaptures": {
+        "1": { "name": "punctuation.definition.annotation.antlr3" },
+        "2": { "name": "keyword.control.lexer-qualifier.antlr3" },
+        "3": { "name": "keyword.control.header.antlr3" },
+        "4": { "name": "punctuation.section.block.begin.antlr3" }
+      },
+      "end": "(\\})",
+      "endCaptures": {
+        "1": { "name": "punctuation.section.block.end.antlr3" }
+      },
+      "name": "meta.header.antlr3",
+      "contentName": "meta.embedded.block.java"
+    },
+    "fragmentLexerRuleDef": {
+      "begin": "^(fragment)\\s+([A-Z]\\w*)\\s*(:)",
+      "beginCaptures": {
+        "1": { "name": "storage.modifier.fragment.antlr3" },
+        "2": { "name": "entity.name.type.lexer-rule.antlr3" },
+        "3": { "name": "keyword.operator.definition.antlr3" }
+      },
+      "end": "(;)",
+      "endCaptures": {
+        "1": { "name": "punctuation.terminator.antlr3" }
+      },
+      "patterns": [
+        { "include": "#ruleBody" }
+      ]
+    },
+    "parserRuleDef": {
+      "begin": "^([a-zA-Z]\\w*)\\s*(:)",
+      "beginCaptures": {
+        "1": { "name": "entity.name.function.parser-rule.antlr3" },
+        "2": { "name": "keyword.operator.definition.antlr3" }
+      },
+      "end": "(;)",
+      "endCaptures": {
+        "1": { "name": "punctuation.terminator.antlr3" }
+      },
+      "patterns": [
+        { "include": "#ruleBody" }
+      ]
+    },
+    "standaloneLexerRuleName": {
+      "match": "^([A-Z]\\w*)\\s*$",
+      "captures": {
+        "1": { "name": "entity.name.type.lexer-rule.antlr3" }
+      }
+    },
+    "standaloneFragment": {
+      "match": "^(fragment)\\s*$",
+      "captures": {
+        "1": { "name": "storage.modifier.fragment.antlr3" }
+      }
+    },
+    "definitionColon": {
+      "match": "^\\s*(:)",
+      "captures": {
+        "1": { "name": "keyword.operator.definition.antlr3" }
+      }
+    },
+    "ruleBody": {
+      "patterns": [
+        { "include": "#comment" },
+        { "include": "#stringLiteral" },
+        { "include": "#actionBlock" },
+        { "include": "#keywords" },
+        { "include": "#operators" },
+        { "include": "#lexerRuleRef" },
+        { "include": "#parserRuleRef" },
+        { "include": "#integer" },
+        { "include": "#punctuation" }
+      ]
+    },
+    "stringLiteral": {
+      "name": "string.quoted.single.antlr3",
+      "begin": "'",
+      "end": "'",
+      "patterns": [
+        {
+          "name": "constant.character.escape.antlr3",
+          "match": "\\\\(u[0-9a-fA-F]{4}|[nrtbf'\"\\\\])"
+        }
+      ]
+    },
+    "actionBlock": {
+      "begin": "(\\{)",
+      "beginCaptures": {
+        "1": { "name": "punctuation.section.action.begin.antlr3" }
+      },
+      "end": "(\\})",
+      "endCaptures": {
+        "1": { "name": "punctuation.section.action.end.antlr3" }
+      },
+      "name": "meta.action.antlr3",
+      "patterns": [
+        {
+          "name": "variable.language.channel.antlr3",
+          "match": "\\$channel"
+        },
+        {
+          "name": "constant.language.channel.antlr3",
+          "match": "\\bHIDDEN\\b"
+        },
+        { "include": "#stringLiteral" }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.antlr3",
+          "match": "\\b(grammar|options|fragment)\\b"
+        },
+        {
+          "name": "constant.language.eof.antlr3",
+          "match": "\\bEOF\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.range.antlr3",
+          "match": "\\.\\."
+        },
+        {
+          "name": "keyword.operator.alternation.antlr3",
+          "match": "\\|"
+        },
+        {
+          "name": "keyword.operator.quantifier.antlr3",
+          "match": "[?*+]"
+        },
+        {
+          "name": "keyword.operator.not.antlr3",
+          "match": "~"
+        },
+        {
+          "name": "keyword.operator.wildcard.antlr3",
+          "match": "(?<=\\s)\\.(?=\\s|;)"
+        }
+      ]
+    },
+    "lexerRuleRef": {
+      "match": "\\b([A-Z]\\w*)\\b",
+      "name": "entity.name.type.lexer-rule-ref.antlr3"
+    },
+    "parserRuleRef": {
+      "match": "\\b([a-z]\\w*)\\b",
+      "name": "entity.name.function.parser-rule-ref.antlr3"
+    },
+    "integer": {
+      "name": "constant.numeric.integer.antlr3",
+      "match": "\\b\\d+\\b"
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "name": "punctuation.terminator.antlr3",
+          "match": ";"
+        },
+        {
+          "name": "punctuation.section.group.begin.antlr3",
+          "match": "\\("
+        },
+        {
+          "name": "punctuation.section.group.end.antlr3",
+          "match": "\\)"
+        }
+      ]
+    }
+  }
+}
