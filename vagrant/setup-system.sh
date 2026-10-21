@@ -1,7 +1,14 @@
 set -ex
 export DEBIAN_FRONTEND=noninteractive
-wget -O /usr/bin/ape https://cosmo.zip/pub/cosmos/bin/ape-$(uname -m).elf
-chmod +x /usr/bin/ape
+# The APE loader of the Cosmopolitan version Sireum uses (org.sireum.version.cosmos in kekinian's
+# versions.properties), from sireum/rolling's ape release, checked against its SHA256SUMS
+COSMOS_VER=4.0.2
+APE="ape-$(uname -m)-${COSMOS_VER}.elf"
+ROLLING=https://github.com/sireum/rolling/releases/download/ape
+wget -qO "/tmp/$APE" "$ROLLING/$APE"
+wget -qO /tmp/ape.sha256 "$ROLLING/SHA256SUMS"
+(cd /tmp && grep " $APE\$" ape.sha256 | sha256sum -c -)
+install -m 755 "/tmp/$APE" /usr/bin/ape
 sh -c "echo ':APE:M::MZqFpD::/usr/bin/ape:' >/proc/sys/fs/binfmt_misc/register"
 sh -c "echo ':APE-jart:M::jartsr::/usr/bin/ape:' >/proc/sys/fs/binfmt_misc/register"
 add-apt-repository universe
